@@ -38,7 +38,8 @@ func TestJitterUpperBoundDoubles(t *testing.T) {
 			got := time.Since(start)
 			if got < 0 || got >= upper {
 				t.Errorf("Wait() call #%d blocked %v, want in [0, %v)",
-					i+1, got, upper)
+					i+1, got, upper,
+				)
 			}
 		}
 	})
@@ -57,7 +58,8 @@ func TestJitterSaturatesAtCap(t *testing.T) {
 			got := time.Since(start)
 			if got < 0 || got >= limit {
 				t.Errorf("saturated call #%d blocked %v, want in [0, %v)",
-					i+1, got, limit)
+					i+1, got, limit,
+				)
 			}
 		}
 	})
@@ -114,7 +116,8 @@ func TestJitterDistributionSpread(t *testing.T) {
 		// Uniform on [0, limit): mean ~ limit/2.
 		if mean < limit*40/100 || mean > limit*60/100 {
 			t.Errorf("mean of %d draws = %v, want ~%v (uniform on [0, %v))",
-				runs, mean, limit/2, limit)
+				runs, mean, limit/2, limit,
+			)
 		}
 		if maxS-minS < limit/2 {
 			t.Errorf("spread max-min = %v, want at least %v "+
