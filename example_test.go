@@ -12,11 +12,9 @@ func Example() {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	var (
-		start = time.Now()
-		since = start
-		tries = 0
-	)
+	start := time.Now()
+	since := start
+	var tries int
 	fn := func() error {
 		tries++
 		now := time.Now()

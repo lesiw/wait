@@ -47,8 +47,10 @@ func TestJitterUpperBoundDoubles(t *testing.T) {
 
 func TestJitterSaturatesAtCap(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
-		limit := 1024 * time.Millisecond
-		w := Jitter(limit)
+		var (
+			limit = 1024 * time.Millisecond
+			w     = Jitter(limit)
+		)
 		for range 20 {
 			<-w.Wait()
 		}
@@ -67,8 +69,10 @@ func TestJitterSaturatesAtCap(t *testing.T) {
 
 func TestJitterShiftOverflowClampsToCap(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
-		limit := 1024 * time.Second // internal base = 1s
-		w := Jitter(limit)
+		var (
+			limit = 1024 * time.Second // internal base = 1s
+			w     = Jitter(limit)
+		)
 		// Advance past shift overflow: base<<34 wraps to negative.
 		for range 34 {
 			<-w.Wait()
@@ -86,19 +90,19 @@ func TestJitterShiftOverflowClampsToCap(t *testing.T) {
 
 func TestJitterDistributionSpread(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
-		const limit = 1024 * time.Millisecond
-		const runs = 1000
+		const (
+			limit = 1024 * time.Millisecond
+			runs  = 1000
+		)
 		w := Jitter(limit)
 		// Drain the pre-limit doublings so every draw is uniform on
 		// [0, limit).
 		for range 11 {
 			<-w.Wait()
 		}
-		var (
-			total time.Duration
-			minS  = limit
-			maxS  time.Duration
-		)
+		var total time.Duration
+		minS := limit
+		var maxS time.Duration
 		for range runs {
 			start := time.Now()
 			<-w.Wait()

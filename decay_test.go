@@ -8,8 +8,10 @@ import (
 
 func TestDecayFirstIsFree(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
-		w := Decay(15 * time.Second)
-		start := time.Now()
+		var (
+			w     = Decay(15 * time.Second)
+			start = time.Now()
+		)
 		<-w.Wait()
 		if got := time.Since(start); got != 0 {
 			t.Errorf("Wait() first call blocked %v, want 0", got)
